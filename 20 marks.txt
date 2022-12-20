@@ -1,0 +1,306 @@
+1.Write an anonymous function to find area of square and rectangle.
+length = float(input("Enter length of rectangle = "))
+bredth = float(input("Enter bredth of rectangle = "))
+side = float(input("Enter side of square = "))
+findArea = lambda l,b,s: (l*b,s**2)
+rect,sq = findArea(length,bredth,side)
+print(f"\nArea of rectangle = {rect} sq.units")
+print(f"\nArea of square = {sq} sq.units")
+
+
+2.Write a python script to print all the perfect numbers in the range of 1 to 1000.
+
+def findPerfectNumber(m):
+    add=0
+    for i in range(1,m):
+        if m%i==0:
+            add=add+i
+
+    if add==m:
+        print(m, end=" , ")
+
+print("Perfect numbers betwwen 1 to 1000 = ")
+for i in range(1,1001):
+    findPerfectNumber(i)
+
+
+3.Write a python script to print all the 3 digit Armstrong numbers in the range of 
+  1 to 1000.
+
+def findArmStrong(m):
+    add=0
+    temp = m
+    rem=0
+    while temp>0: 
+        add = add + (temp%10)**3
+        temp = temp//10
+
+    if add==m:
+        print(m, end=" , ")
+
+print("3 Digit armstrong numbers betwwen 1 to 1000 = ")
+for i in range(100,1000):
+    findArmStrong(i)
+ 
+
+4.Write a program to accept an integer number from the user. Calculate the sum 
+  of first and last digit of a number and print it.
+
+n = int(input("Enter any number : "))
+number = str(n)
+first = int(number[0])
+last = int(number[-1])
+add=first+last
+print(f"\nAddition of {first} and {last} is : ",add)
+ 
+
+
+5.Write a Python script to generate and print a dictionary which contains a 
+  number (between 1 and n) in the form(x, x*x). 
+  Sample Input value of N:5 
+  Expected Output: {1:1, 2:4, 3:9, 4:16, 5:25}
+
+n=int(input("Input a number "))
+d = dict()
+
+for x in range(1,n+1):
+    d[x]=x*x
+
+print(d)
+
+ 
+6.Write a Python program to Interchange First and Last Element of a List. 
+  Sample List: [1, 29, 51, 7, 23] 
+  Expected Output: [23, 29, 51,7, 1 ]
+
+Sample = [1, 29, 51, 7, 23]
+print(Sample)
+Sample[0],Sample[-1]=Sample[-1],Sample[0]
+print(Sample)
+
+
+7.Write a Python GUI program to create a label and change the label font style 
+  (font name, bold, size) using tkinter module. 
+
+from tkinter import * 
+root = Tk()
+root.title("label program")
+root.geometry('500x500+200+100')
+
+lbl1 = Label(root,text="Hello World",font=("verdana",45))
+def font():
+    lbl1['font'] = ("Book Antiqua",25,"bold")
+    return
+button = Button(root, text="Change Font", command = font)
+
+lbl1.pack()
+button.pack()
+root.mainloop()
+
+
+8.Write a Python to program to accept a string from the user and print it by 
+  removing the vowels and digits.
+
+string = input("Enter a string = ")
+print("\nOutput :")
+for i in string:
+    if i in "1234567890" or i in "aeiouAEIOU":
+        continue
+    else:
+        print(i, end="")
+
+
+9.Write a Python program that inverts a dictionary. That is, it makes key of one 
+  dictionary as value of another and vice versa. 
+  Exa: Original_dict = { “roll” : 101, “name” : “Sindhu”, “Per” : 67.54} 
+  New_dict = { 101 : “roll”, “Sindhu” : “name” , 67.54 : “Per”}
+
+sample ={ "roll" : 101, "name" : "Sindhu", "percentage" : 67.54}
+output = {}
+for key,value in sample.items():
+    key,value=value,key
+    output[key]=value
+    
+print("Sample = ",sample)
+print("Output = ",output)
+
+
+10.Write a Python program to create a list of tuples with the first element as the 
+  number and second element as the square of the number. 
+  Expected Output: [(1,1),(2,4),(3,9),(4,16)] 
+
+n= 5 #kindly accept number from user
+lst = list()
+for i in range(1,5+1):
+    lst.append((i,i**2))
+print(lst)
+
+
+
+11.Write a Python function that accepts a string and calculate the number of upper 
+  case letters and lower case letters. 
+  Sample String : “The quick Brown Fox”
+  Expected Output : No. of Upper case characters : 3 
+  No. of Lower case Characters : 13
+
+s = "The quick Brown Fox"
+print(s)
+cc=sc=0
+for i in s:
+    if i.isupper():
+        cc+=1
+    if i.islower():
+        sc+=1
+print("\n Capital letters",cc)
+print("\n Small letters",sc)
+
+
+12.Program to Get Data Items from a List Appearing Odd Number of Times. 
+  Assume lst = [1,2,3,4,5,1,3,3,4] 
+  Expected Output: [2, 3, 5]
+
+my = [1,2,3,4,5,1,3,3,4]
+print("Original = ",my)
+ans = []
+for i in my:
+    if my.count(i)%2!=0 and i not in ans:
+        ans.append(i)
+print("\nOutput = ",ans)
+
+
+13.Write Python GUI program that takes input string and change letter to upper 
+  case when a button is pressed. Assume suitable form design.
+
+from tkinter import *
+shailesss = Tk()
+shailesss.geometry("200x200")
+shailesss.title("Upper case")
+def upper():
+    t = s.get()
+    lbb['text'] = t.upper()
+    return
+
+
+
+14.Write a Python program to insert an element before each element of a list. 
+Sample List: [‘Red’, ‘Green’, ‘Black’] 
+ Output: [‘C’, ‘Red’, ’C’, ‘Green’, ‘C’, ‘Black’] 
+
+color = ['Red','Green','Black']
+print(color)
+for i in range(0,len(color)+3,2):
+    color.insert(i,'c')
+print(color)
+
+
+15.Write a Python program to unzip a list of tuples into individual lists.
+
+ls_tup = [("name","Shailesh"),("city","Pune"),("age",20),("Percentage",85.55),("Village","Kankavali")]
+answer = [[i for i,j in ls_tup],[j for i,j in ls_tup] ]
+print("\nOriginal :\n",ls_tup)
+print("\nAnswer :\n",answer)
+
+
+16. Write a Python program to compute element-wise sum of given tuples. 
+  Original tuples: (1, 2, 3, 4) (3, 5, 2, 1) (2, 2, 3, 1) 
+  Element-wise sum of the said tuples: (6, 9, 8, 6)
+
+tup1 = (1, 2, 3, 4) 
+tup2 = (3, 5, 2, 1) 
+tup3 = (2, 2, 3, 1)
+print(tup1,tup2,tup3) 
+result=[]
+for i in range(0,len(tup1)):
+    result.append(tup1[i]+tup2[i]+tup3[i])
+result=tuple(result)
+print("Result :", result)
+
+
+
+17. Write a Python GUI program to design login screen. 
+
+from tkinter import *
+n
+def login():
+    
+    uname=username.get()
+    pwd=password.get()
+   
+    if uname=='' or pwd=='':
+        message.set("fill the empty field!!!")
+    else:
+      if uname=="abcd@gmail.com" and pwd=="abc123":
+       message.set("Login success")
+      else:
+       message.set("Wrong username or password!!!")
+
+def Loginform():
+    global login_screen
+    login_screen = Tk()
+    login_screen.title("Login Form")
+    
+    login_screen.geometry("300x250")
+    
+    global  message;
+    global username
+    global password
+    username = StringVar()
+    password = StringVar()
+    message=StringVar()
+    
+    Label(login_screen,width="300", text="Please enter details below", bg="orange",fg="white").pack()
+    
+    Label(login_screen, text="Username * ").place(x=20,y=40)
+   
+    Entry(login_screen, textvariable=username).place(x=90,y=42)
+   
+    Label(login_screen, text="Password * ").place(x=20,y=80)
+    
+    Entry(login_screen, textvariable=password ,show="*").place(x=90,y=82)
+   
+    Label(login_screen, text="",textvariable=message).place(x=95,y=100)
+    
+    Button(login_screen, text="Login", width=10, height=1, bg="orange",command=login).place(x=105,y=130)
+    login_screen.mainloop()
+
+
+
+18.Write a Python program to find area of circle using an anonymous function.
+
+import math
+radius = int(input("Enter radius of circle = "))
+area = lambda r : math.pi*(r**2)
+print("Area of given circle = ", area(radius))
+
+
+19.Write a Python program to create two separate lists namely oddList and 
+  evenList from the given mainList. All the odd values from the mainList should 
+  go inside the oddList and even values should go inside the evenList. Use the 
+  concept of List Comprehension. 
+  Sample Input: mainList: [5,12,9,7,21,18,35,-4] 
+  Expected Output: oddList: [5,9,7,21,35] 
+  evenList: [12,18,-4]
+
+def splitevenodd(A): 
+   evenlist = [] 
+   oddlist = [] 
+   for i in A: 
+      if (i % 2 == 0): 
+         evenlist.append(i) 
+      else: 
+         oddlist.append(i) 
+   print("Even lists:", evenlist) 
+   print("Odd lists:", oddlist) 
+  
+
+
+20. Write a Python program to insert an element before each element of a list. 
+Sample List: [‘Red’, ‘Green’, ‘Black’] 
+  Output: [‘C’, ‘Red’, ’C’, ‘Green’, ‘C’, ‘Black’]
+
+color = ['Red','Green','Black']
+print(color)
+
+for i in range(0,len(color)+3,2):
+    color.insert(i,'c')
+print(color)
