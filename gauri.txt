@@ -1,0 +1,1194 @@
+#Slip 1
+#Question 1
+from tkinter import *
+root = Tk()
+root.geometry("500x500+200+100")
+root.title("Slip1")
+
+def ohhYeahh():
+    text = sentence.get()
+    print("Input sentence = ",text)
+    digit = "1234567890"
+    for i in text:
+        if i in digit:
+            text = text.replace(i,"@")
+    text = text.replace(" ", "*")
+    print("Output Sentence = ",text.swapcase())
+    return    
+
+label1 = Label(root, text="Enter Sentence Here : ")
+sentence = Entry(root, text="")
+button = Button(root, text="Click me", command = ohhYeahh)
+
+label1.grid(row=0,column=0,padx="15",pady="15")
+sentence.grid(row=0,column=1,padx="15",pady="15")
+button.grid(row=1,column=1,padx="15",pady="15")
+root.mainloop()
+
+#Question 2
+
+def convertTupple(tuple_string):
+    result = tuple((int(x[0]), int(x[1])) for x in tuple_string)
+    return result
+     
+tupleSTR =  (('333', '33'), ('1416', '55'))
+print(f"Original tuple =: {tupleSTR}")
+print(f"\nNew tuple =: {convertTupple(tupleSTR)}")
+
+#Question 3
+
+length = float(input("Enter length of rectangle = "))
+bredth = float(input("Enter bredth of rectangle = "))
+side = float(input("Enter side of square = "))
+findArea = lambda l,b,s: (l*b,s**2)
+rect,sq = findArea(length,bredth,side)
+print(f"\nArea of rectangle = {rect} sq.units")
+print(f"\nArea of square = {sq} sq.units")
+
+# SLIP 2
+#Question 1
+stack = list()
+while True:
+    print("\n1. Show stack item")
+    print("2. Add item in stack")
+    print("3. Pop operation of stack")
+    print("4. Exit")
+    choice = int(input("\nEnter your choice : "))
+
+    if choice==1:
+        if len(stack)==0:
+            print("\nStack is empty !!")
+        else:
+            print(f"Stack = {stack}")
+    elif choice==2:
+        item = input("\nEnter item to add :: ")
+        stack.append(item)
+        print("\nItem added in stack")
+    elif choice==3:
+        stack.pop()
+        print("\nItem popped")
+    elif choice==4:
+        print("\nKhatam... Tata... Bye-Bye... Gaya")
+        break
+    else:
+        print("\n Invalid Entry")
+
+#Question 2
+import math
+class Shape():
+    def area(self):
+        pass
+
+    def volume(self):
+        pass
+
+class Circle(Shape):
+    def __init__(self,r):
+        self.radius = r
+
+    def area(self):
+        print("\nArea of circle =",math.pi*(self.radius**2))
+
+    def volume(self):
+       print("\nVolume of circle =",(4/3)*math.pi*(self.radius**3))
+
+class Square(Shape):
+    def __init__(self,s):
+        self.side = s
+
+    def area(self):
+        print("\nArea of square =",self.side**2)
+
+    def volume(self):
+        print("\nVolume of square =",self.side**3)
+
+c = Circle(int(input("\nEnter radius of circle = ")))
+c.area()
+c.volume()
+
+s = Square(int(input("\nEnter length of square = ")))
+s.area()
+s.volume()
+
+#Question 3
+
+def findPerfectNumber(m):
+    add=0
+    for i in range(1,m):
+        if m%i==0:
+            add=add+i
+
+    if add==m:
+        print(m, end=" , ")
+
+print("Perfect numbers betwwen 1 to 1000 = ")
+for i in range(1,1001):
+    findPerfectNumber(i)
+
+#Slip 3
+#Question 1
+class InvalidCellNumberError(Exception):
+    def __init__(self):
+        self.message = "Chukicha Number taklas *#!@$% "
+        return
+
+try:
+    mobile = input("Enter Mobile Number = ")
+    if mobile.isdigit() and len(mobile)==10 and mobile[0] in "7896":
+        print("Given Number is vaild")
+    else:
+        raise InvalidCellNumberError()
+except InvalidCellNumberError as e:
+    print("Exception : ",e.message)
+   
+#Question 2
+
+from tkinter import *
+ 
+def calculate():
+    res= int(e.get())
+    label_text['text'] = bin(res).replace("0b", "")
+    label_text1['text'] = oct(res).replace("0o", "")
+    label_text2['text'] = hex(res).replace("0x", "")
+
+root = Tk()
+root.title("Conversion of number")
+label = Label(root, text = "Enter number here", font=29)
+e = Entry(root, text = "", font=29)
+button = Button(root, text = "Find", command= calculate, font=29)
+label_text = Label(root, text = "Binary", font=29)
+label_text1 = Label(root, text = "Octal", font=29)
+label_text2 = Label(root, text = "HexaDecimal", font=29)
+
+label.grid(row=0,column=0,padx="15",pady="15")
+e.grid(row=0,column=1,padx="15",pady="15")
+button.grid(row=1,column=0,padx="15",pady="15")
+label_text.grid(row=2,column=0,padx="15",pady="15")
+label_text1.grid(row=2,column=1,padx="15",pady="15")
+label_text2.grid(row=2,column=2,padx="15",pady="15")
+root.mainloop()
+
+#Question 3
+def findArmStrong(m):
+    add=0
+    temp = m
+    rem=0
+    while temp>0: 
+        add = add + (temp%10)**3
+        temp = temp//10
+
+    if add==m:
+        print(m, end=" , ")
+
+print("3 Digit armstrong numbers betwwen 1 to 1000 = ")
+for i in range(100,1000):
+    findArmStrong(i)
+
+#Slip 4
+#Question 1
+string = " thequickbrownfoxjumpsoverthelazydog "
+check = ""
+print("Character           Occuarance")
+for i in string:
+    cnt = 0
+    if i not in check and i!=" ":
+        count = string.count(i)
+        check = check+i
+        if count>1:
+            print(i,"                      ",count)
+                                             
+#Question 2
+class ArithmeticOperations():
+    def __init__(self,a,b):
+        self.a=a
+        self.b=b
+    def add(self):
+        return self.a+self.b
+    def mul(self):
+        return self.a*self.b
+    def div(self):
+        try:
+            return self.a/self.b
+        except:
+            return "\nZero Division Error : Denominator can not be zero"
+    def sub(self):
+        return self.a-self.b
+a=int(input("\nEnter first number: "))
+b=int(input("\nEnter second number: "))
+obj=ArithmeticOperations(a,b)
+choice=1
+while choice!=0:
+    print("\n0. Exit")
+    print("1. Add")
+    print("2. Subtraction")
+    print("3. Multiplication")
+    print("4. Division")
+    choice=int(input("\nEnter choice: "))
+    if choice==1:
+        print("\nResult: Addition =",obj.add())
+    elif choice==2:
+        print("\nResult: Subtraction =",obj.sub())
+    elif choice==3:
+        print("\nResult: Multiplication =",obj.mul())
+    elif choice==4:
+        print("\nResult: Division =",obj.div())
+    elif choice==0:
+        print("\nKhatam... Tata... Bye-Bye... Gaya")
+    else:
+        print("\nInvalid choice!!")
+
+#Question 3
+n = int(input("Enter any number : "))
+number = str(n)
+first = int(number[0])
+last = int(number[-1])
+add=first+last
+print(f"\nAddition of {first} and {last} is : ",add)
+ 
+#SLIP 5
+#Question 1
+from tkinter import *
+root = Tk()
+root.geometry("500x500+100+100")
+
+def prime():
+    m = int(n.get())
+    if m > 1:
+        for i in range(2, m):
+            if (m % i) == 0:
+                txt = str(m)+" is not a prime number"
+                break
+        else:
+            txt = str(m)+" is a prime number"
+    ans['text'] = txt
+    return
+
+def perfect():
+    m = int(n.get())
+    add = 0
+    for i in range(1,m):
+        if m%i==0:
+            add = add + i
+    if add == m :
+        txt = str(m)+" is perfect number"
+    else :
+        txt =str(m)+ " is not perfect number"
+    ans['text'] = txt
+    return
+
+def arm():
+    m = int(n.get())
+    temp = m
+    total = 0
+    while temp > 0 :
+        digit = temp %10
+        total = total + (digit**3)
+        temp = temp//10
+    if m == total:
+        txt =str(m)+ " is an armstrong number"
+    else :
+        txt =str(m)+ " is not armstrong number"
+    ans['text'] = txt
+    return
+
+radio = IntVar()
+
+l = Label(root, text = "Enter a number here : ")
+n = Entry(root,text = "")
+ptBtn = Radiobutton(root, text = "is Perfect ?", var = radio, value = 1, command = perfect)
+prBtn = Radiobutton(root, text = "is Prime ?", var = radio, value = 2, command = prime)
+arBtn = Radiobutton(root, text = "is Armstrong ?", var = radio, value = 3, command = arm)
+ans = Label(root, text = "Answer")
+
+l.grid(row = 0, padx ="15", pady ="15")
+n.grid(row = 0, column = 1 , padx ="15", pady ="15")
+ptBtn.grid(row = 1, padx ="15", pady ="15")
+prBtn.grid(row = 1, column = 1, padx ="15", pady ="15")
+arBtn.grid(row = 1, column = 2, padx ="15", pady ="15")
+ans.grid(row = 2, column = 1, padx ="15", pady ="15")
+
+root.mainloop()
+
+#Question 2
+class Rectangle:
+    def __init__(self, length, breadth):
+        self.length = length
+        self.breadth = breadth
+
+    def area(self):
+        return (self.length*self.breadth)
+    
+    def perimeter(self):
+        return (2*self.length + 2*self.breadth)
+    
+l = int (input("Enter the length of the Rectangle: "))
+b = int (input("Enter the breadth of the rectangle: "))
+
+r = Rectangle(l , b)
+print ("\nArea of Rectangle is: ", r.area())
+print ("The Perimeter of the Rectangle is: ", r.perimeter())
+
+#Question 3
+n=int(input("Input a number "))
+d = dict()
+
+for x in range(1,n+1):
+    d[x]=x*x
+
+print(d)
+
+#SLIP 6
+#Question 1
+class NameNotProperError(Exception):
+    def __init__(self):
+        self.message = "Ae cheeting karta hai tu... galat naam diya. "
+        return
+
+try:
+    n = input("Enter your name = ")
+    if n.isalpha() and len(n)>=3 and n[0].isupper():
+        pass
+    else:
+        raise NameNotProperError()
+except NameNotProperError as e:
+    print("Error = ",e.message)
+
+#Question 2
+from tkinter import * 
+
+def view():
+    print("Selected Elements in List : ")
+    s = lstLang.curselection()
+    for i in s:
+        print("-",lstLang.get(i))
+    return
+
+def add():
+    i = item.get()
+    lstLang.insert(0,i)
+    return
+
+def delete():
+    s = lstLang.curselection()
+    for i in s:
+        lstLang.delete(i)
+    return
+
+root = Tk()
+root.title("List")
+root.geometry('500x500+200+100')
+
+lstLang = Listbox(root,font="verdana 30",selectmode='multiple')
+add = Button(root, text="Add Item", command=add,font="verdana 35")
+view = Button(root, text="Print List", command=view,font="verdana 35")
+delete = Button(root, text="Delete Item", command=delete,font="verdana 35")
+item = Entry(root, text ="", font = "verdana 20")
+
+item.grid(row = 0, column = 1, padx ="15", pady ="15")
+lstLang.grid(row = 0, column = 0, padx ="15", pady ="15")
+add.grid(row = 1, column = 0, padx ="15", pady ="15")
+view.grid(row = 1, column = 1, padx ="15", pady ="15")
+delete.grid(row = 1, column = 2, padx ="15", pady ="15")
+root.mainloop()
+
+#Question 3
+Sample = [1, 29, 51, 7, 23]
+print(Sample)
+Sample[0],Sample[-1]=Sample[-1],Sample[0]
+print(Sample)
+
+#SLIP 7
+#Question 1
+class Personal():
+    def getPdata(self):
+        self.name = input("Enter your name = ")
+        self.address = input("Enter your address = ")
+        self.email = input("Enter your Email Id = ")
+        self.birthday = input("Enter your Birthdate [dd / mm / yyyy] = ")
+        return
+
+class Academic():
+    def getAdata(self):
+        self.p10 = float(input("Enter 10th standard percentage = "))
+        self.p12 = float(input("Enter 12th standard percentage = "))
+        return
+
+class Biodata(Personal, Academic):
+    def printBiodata(self):
+        print("\n------ BIODATA ------")
+        print("\nName = ",self.name)
+        print("Address = ",self.address)
+        print("Email Id = ",self.email)
+        print("Birthday = ",self.birthday)
+        print("10th percentage = ",self.p10)
+        print("12th percentage = ",self.p12)
+        return
+        
+b = Biodata()
+b.getPdata()
+b.getAdata()
+b.printBiodata()
+
+#Qestion 2
+sf = open(r"G:\start.txt",encoding="utf-8")
+data = sf.readlines()
+print("Lines containing \"the\" are :")
+for i in data:
+    if "the" in i.split(" "):
+        print("\n",i)
+sf.close()
+
+#Question 3
+from tkinter import * 
+root = Tk()
+root.title("label program")
+root.geometry('500x500+200+100')
+
+lbl1 = Label(root,text="Hello World",font=("verdana",45))
+def font():
+    lbl1['font'] = ("Book Antiqua",25,"bold")
+    return
+button = Button(root, text="Change Font", command = font)
+
+lbl1.pack()
+button.pack()
+root.mainloop()
+
+#SLIP 8
+#Question 1
+from tkinter import *
+root = Tk()
+root.geometry("300x300+100+100")
+def volume():
+    import math
+    volume = (4/3)*math.pi*float(r.get())
+    txt = "Volume of sphere = "+str(volume)
+    answer['text'] = txt
+    return
+
+label = Label(root, text = "Enter radius of sphere")
+r = Entry(root, text="")
+button = Button(root, text = "Print Volume", command = volume)
+answer = Label(root, text = "Volume of sphere")
+
+label.pack()
+r.pack()
+button.pack()
+answer.pack() 
+root.mainloop()
+
+#Question 2
+sF = open(r"G:\start.txt","r",encoding="utf-8")
+dF = open(r"G:\end.txt","w",encoding="utf-8")
+
+while True:
+    line = sF.readline()
+    if len(line)==0:
+        break
+    if line[0] in "1230456789":
+        dF.write(line[1::]+"\n")
+    else:
+        dF.write(line+"\n")
+
+sF.close()
+dF.close()
+
+if sF.closed and dF.closed:
+    print("File copied successfully")
+else:
+    print("File Closing Error")
+
+#Question 3
+string = input("Enter a string = ")
+print("\nOutput :")
+for i in string:
+    if i in "1234567890" or i in "aeiouAEIOU":
+        continue
+    else:
+        print(i, end="")
+
+#Slip 9
+#Question 1
+import pickle
+f = open(r"G:\binary.txt","wb+")
+for i in range(3):
+    r = int(input("\nEnter roll number = "))
+    n = input("Enter name = ")
+    p = float(input("Enter percentage = "))
+    pickle.dump(r,f)
+    pickle.dump(n,f)
+    pickle.dump(p,f)
+f.seek(0)
+for i in range(3):
+    r = pickle.load(f)
+    n = pickle.load(f)
+    p = pickle.load(f)
+    print(f"\nRoll Number of Student{i+1} = {r}")
+    print(f"Name of Student{i+1} = {n}")
+    print(f"Percentage of Student{i+1} = {p}")
+f.close()
+
+#Question 2
+from tkinter import *
+root = Tk()
+root.geometry("400x200+100+100")
+def count():
+    st = s.get()
+    ch = c.get()
+    count=st.count(ch)
+    a["text"] = "Occuarance of "+ch+" in "+st+" = "+ str(count)
+     
+
+l1 = Label(root, text = "Enter a string : ")
+s = Entry(root, text = "")
+l2 = Label(root, text = "Enter a string : ")
+c = Entry(root, text = "")
+b = Button(root, text="Count occuarance", command = count)
+a = Label(root, text = "Occuarance of character will be displayed here")
+
+l1.grid(row = 0, column = 0, padx ="10", pady ="10")
+s.grid(row = 0, column = 1, padx ="10", pady ="15")
+l2.grid(row = 1, column = 0, padx ="10", pady ="10")
+c.grid(row = 1, column = 1, padx ="10", pady ="15")
+b.grid(row = 2, column = 0, padx ="10", pady ="15")
+a.grid(row = 3, column = 0, padx ="10", pady ="15")
+root.mainloop()
+
+#Question 3
+sample ={ "roll" : 101, "name" : "Sindhu", "percentage" : 67.54}
+output = {}
+for key,value in sample.items():
+    key,value=value,key
+    output[key]=value
+    
+print("Sample = ",sample)
+print("Output = ",output)
+
+#SLIP 10
+#Question 1
+import math
+class Circle():
+    def __init__(self,r):
+        self.radius = r
+        return
+
+    def area(self):
+        return math.pi*self.radius*self.radius
+
+    def circum(self):
+        return 2*math.pi*self.radius
+
+rad = int(input("Radius of circle = "))
+c = Circle(rad)
+print("Area of circle = ",c.area())
+print("Circumferance of circle = ",c.circum())
+
+#Question 2
+f = open(r"G:\10.txt",encoding = "utf-8")
+data =f.readlines()
+print("Numbers in a given files are :")
+for i in data:
+    for m in i.split():
+        if m.isnumeric():
+            print("\n",m)
+f.close()
+
+#Question 3
+n= 5 #kindly accept number from user
+lst = list()
+for i in range(1,5+1):
+    lst.append((i,i**2))
+print(lst)
+
+#SLIP 11
+#Question 1
+f = open(r"G:\pune.txt", encoding="utf-8")
+lines = 0
+words = 0
+characters = 0
+for l in f:
+    lines+=1
+    words = words + len(l.split(" "))
+    characters= characters+len(l)
+f.close()
+print("lines:", lines, "\nwords:", words, "\ncharacters:", characters)
+
+#Question 2
+a = [1, 2, 3,4,5]
+try: 
+    print ("Second element = %d" %(a[1]))
+    print ("Fourth element = %d" %(a[9]))
+  
+except:
+    print ("An error occurred. \nIndexError: list index out of range")
+
+#Question 3
+s = "The quick Brown Fox"
+print(s)
+cc=sc=0
+for i in s:
+    if i.isupper():
+        cc+=1
+    if i.islower():
+        sc+=1
+print("\n Capital letters",cc)
+print("\n Small letters",sc)
+
+#SLIP 12
+#Question 1
+from tkinter import *
+import random
+root = Tk()
+root.geometry("400x200+3+3")
+
+def gP():
+    letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIKLMNOPQRSTUVWXYZ"
+    p =""
+    for i in range(10):
+        p = p + random.choice(letters)
+    psw['text'] = p
+    return
+
+button = Button(root, text="Generate Password", font=20 ,command=gP)
+label = Label(root, text="Your password will be displayed here",font=10)
+psw = Label(root, text="", font = ("book antiqua",20,"bold"))
+label.pack()
+psw.pack()
+button.pack()
+root.mainloop()
+
+#Question 2
+class MyString():
+    def getString(self):
+        self.string = input("Enter a string : ")
+        return
+
+    def printString(self):
+        self.string = self.string.title()
+        print("\nOutput = ",self.string)
+        return
+
+m = MyString()
+m.getString()
+m.printString()
+
+#Question 3
+my = [1,2,3,4,5,1,3,3,4]
+print("Original = ",my)
+ans = []
+for i in my:
+    if my.count(i)%2!=0 and i not in ans:
+        ans.append(i)
+print("\nOutput = ",ans)
+
+#SLIP 13
+#Question1
+sourcef = input("Enter path of source file = ")
+endf = input("Enter path of end file = ")
+
+firstf = open(sourcef, "a+", encoding="utf-8")
+secondf = open(endf, "r", encoding="utf-8")
+
+firstf.write(secondf.read())
+
+firstf.close()
+secondf.close()
+
+if firstf.closed and secondf.closed:
+    print("Data appended")
+else:
+    print("Something went wrong !!!")
+
+#Question 2
+alst = [1,2,3,4,5]
+blst = [5,6,7,1]
+clst = [6,7,8,9]
+def checkCommon(list1, list2):
+     result = False
+     for x in list1:
+         for y in list2:
+             if x == y:
+                 result = True
+                 return result
+print(checkCommon(alst, blst))
+print(checkCommon(alst, clst))
+
+#Question 3
+from tkinter import *
+shailesss = Tk()
+shailesss.geometry("200x200")
+shailesss.title("Upper case")
+def upper():
+    t = s.get()
+    lbb['text'] = t.upper()
+    return
+
+lb = Label(shailesss, text = "Enetr string here : ", font=20)
+s = Entry(shailesss, text = "", font=20)
+lbb = Label(shailesss, text = "displaying string....", font=20)
+b = Button(shailesss, text = "Change case", command = upper)
+
+lb.pack()
+s.pack()
+lbb.pack()
+b.pack()
+shailesss.mainloop()
+
+#SLIP 14
+#Question1
+
+from abc import ABC, abstractmethod
+class Person(ABC):
+    @abstractmethod
+    def printData(self):
+        pass
+
+class Student(Person):
+    def __init__(self):
+        self.stud_id = int(input("ID = "))
+        self.stud_name = input("NAME = ")
+        self.stud_per = float(input("Percentage = "))
+        return
+
+    def printData(self):
+        print("\n--- SUMMARY ---")
+        print("\nStudent id = ",self.stud_id )
+        print("Student name = ",self.stud_name )
+        print("Student percentage = ",self.stud_per )
+        return
+
+class Employee(Person):
+        def __init__(self):
+            self.emp_id = input("\nID = ")
+            self.emp_name = input("NAME = ")
+            self.emp_company = input("COMPANY = ")
+            self.emp_designation = input("DESIGNATION = ")
+            self.emp_salary = input("SALARY = ")
+            return
+
+        def printData(self):
+            print("\n--- SUMMARY ---")
+            print("\nEmployee id = ",self.emp_id )
+            print("Employee name = ",self.emp_name )
+            print("Employee company name = ",self.emp_company )
+            print("Employee designation = ",self.emp_designation )
+            print("Employee salary = ",self.emp_salary )
+            return
+
+s = Student()
+s.printData()
+
+e = Employee()
+e.printData()
+
+#Question 2
+fname = input("Enter path of the file = ")
+f = open(fname,encoding='utf-8')
+data = f.readlines()
+for i in range(0,len(data),2):
+    print(data[i])
+f.close()
+if f.closed:
+    print("End")
+else:
+    print("Something went wrong")
+
+#Question 3
+color = ['Red','Green','Black']
+print(color)
+for i in range(0,len(color)+3,2):
+    color.insert(i,'c')
+print(color)
+
+#SLIP 15
+#Question1
+from tkinter import *
+r = Tk()
+r.geometry("200x200")
+r.title("Digit in a number")
+def display():
+    d = {'1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven','8':'eight','9':'nine','0':'zero'}
+    n = s.get()
+    t = " "
+    for i in range(len(n)):
+        t = t+d[n[i]]+" "        
+    lbb['text'] = t
+    return
+
+lb = Label(r, text = "Enter number here : ", font=20)
+s = Entry(r, text = "", font=20)
+lbb = Label(r, text = "displaying each digit....", font=20)
+b = Button(r, text = "Display words", command = display)
+
+lb.pack()
+s.pack()
+lbb.pack()
+b.pack()
+r.mainloop()
+
+#Question 2-
+
+
+
+#Question 3
+ls_tup = [("name","Shailesh"),("city","Pune"),("age",20),("Percentage",85.55),("Village","Kankavali")]
+answer = [[i for i,j in ls_tup],[j for i,j in ls_tup] ]
+print("\nOriginal :\n",ls_tup)
+print("\nAnswer :\n",answer)
+
+#SLIP 16
+#Question1
+from tkinter import *
+class MyWindow:
+    def __init__(root, win):
+        root.lbl1=Label(win, text='First number')
+        root.lbl2=Label(win, text='Second number')
+        root.lbl3=Label(win, text='Result')
+        root.t1=Entry(bd=3)
+        root.t2=Entry()
+        root.t3=Entry()
+        root.btn1 = Button(win, text='Add')
+        root.btn2=Button(win, text='Subtract')
+        root.btn3=Button(win,text="Multilication")
+        root.btn4=Button(win,text="Division")
+        root.lbl1.place(x=100, y=50)
+        root.t1.place(x=200, y=50)
+        root.lbl2.place(x=100, y=100)
+        root.t2.place(x=200, y=100)
+        root.b1=Button(win, text='Add', command=root.add)
+        root.b2=Button(win, text='Subtract')
+        root.b2.bind('<Button-1>', root.sub)
+        root.b3=Button(win,text="Multiplication")
+        root.b3.bind('<Button-1>',root.mul)
+        root.b4=Button(win,text="Divisin")
+        root.b4.bind('<Button-1>',root.div)
+        root.b1.place(x=100, y=150)
+        root.b2.place(x=200, y=150)
+        root.b3.place(x=300,y=150)
+        root.b4.place(x=400,y=150)
+        root.lbl3.place(x=100, y=200)
+        root.t3.place(x=200, y=200)
+    def add(root):
+        root.t3.delete(0, 'end')
+        num1=int(root.t1.get())
+        num2=int(root.t2.get())
+        result=num1+num2
+        root.t3.insert(END, str(result))
+    def sub(root, event):
+        root.t3.delete(0, 'end')
+        num1=int(root.t1.get())
+        num2=int(root.t2.get())
+        result=num1-num2
+        root.t3.insert(END, str(result))
+    def mul(root, event):
+        root.t3.delete(0, 'end')
+        num1=int(root.t1.get())
+        num2=int(root.t2.get())
+        result=num1*num2
+        root.t3.insert(END, str(result)) 
+    def div(root, event):
+        root.t3.delete(0, 'end')
+        num1=int(root.t1.get())
+        num2=int(root.t2.get())
+        result=num1/num2
+        root.t3.insert(END, str(result))       
+
+window=Tk()
+mywin=MyWindow(window)
+window.title('Tkinter Arthematic operations')
+window.geometry("700x500+10+10")
+window.mainloop()
+
+#Question 2
+a = []
+number = int(input("Please Enter the Total Elements : "))
+for i in range(number):
+    value = int(input("Please enter the %d Item : " %i))
+    a.append(value)
+
+for i in range(number -1):
+    for j in range(number - i - 1):
+        if(a[j] > a[j + 1]):
+             temp = a[j]
+             a[j] = a[j + 1]
+             a[j + 1] = temp
+
+print("The Result in Ascending Order : ", a)
+
+#Question 3
+tup1 = (1, 2, 3, 4) 
+tup2 = (3, 5, 2, 1) 
+tup3 = (2, 2, 3, 1)
+print(tup1,tup2,tup3) 
+result=[]
+for i in range(0,len(tup1)):
+    result.append(tup1[i]+tup2[i]+tup3[i])
+result=tuple(result)
+print("Result :", result)
+
+#Slip17
+q1- 
+n=input("enter the string: ") 
+l=n.split('-') 
+l.sort() 
+print('-'.join(l)) 
+
+q2-
+f1=open(r"#create a notepad file and type this is the village and save it and give the link of the file here",'r',encoding='Utf-8')
+f2=open(r"#create another file and mentuon the link here",'w',encoding='Utf-8')
+data=f1.read()
+count=0
+for i in data:
+    if i in "aeiouAEIOU":
+        count=count+data.count(i)
+        data = data.replace(i,"*")
+f2.write(data)
+print(count)
+f1.close()
+f2.close()
+
+
+q3-
+from tkinter import *
+n
+def login():
+    
+    uname=username.get()
+    pwd=password.get()
+   
+    if uname=='' or pwd=='':
+        message.set("fill the empty field!!!")
+    else:
+      if uname=="abcd@gmail.com" and pwd=="abc123":
+       message.set("Login success")
+      else:
+       message.set("Wrong username or password!!!")
+
+def Loginform():
+    global login_screen
+    login_screen = Tk()
+    login_screen.title("Login Form")
+    
+    login_screen.geometry("300x250")
+    
+    global  message;
+    global username
+    global password
+    username = StringVar()
+    password = StringVar()
+    message=StringVar()
+    
+    Label(login_screen,width="300", text="Please enter details below", bg="orange",fg="white").pack()
+    
+    Label(login_screen, text="Username * ").place(x=20,y=40)
+   
+    Entry(login_screen, textvariable=username).place(x=90,y=42)
+   
+    Label(login_screen, text="Password * ").place(x=20,y=80)
+    
+    Entry(login_screen, textvariable=password ,show="*").place(x=90,y=82)
+   
+    Label(login_screen, text="",textvariable=message).place(x=95,y=100)
+    
+    Button(login_screen, text="Login", width=10, height=1, bg="orange",command=login).place(x=105,y=130)
+    login_screen.mainloop()
+
+Loginform()
+#Slip18
+#Question 1
+import pickle as p
+class Student:
+    def init(self):
+        self.roll_no = int(input("Enter roll number:"))
+        self.name =input("Enter name:")
+        self.score=int(input("Enter score:"))
+        
+f = open(r"G:\pp.txt",'w+b')
+ob1=Student()
+p.dump(ob1,f)
+ob2=Student()
+p.dump(ob2,f)
+ob3=Student()
+p.dump(ob3,f)
+try:
+    f.seek(0)
+    while True:
+        data=p.load(f)
+        print("Roll Number = ",data.roll_no)
+        print("Name = ",data.name)
+        print("Score = ",data.score)
+        print()
+except Exception as e:
+    pass
+
+#Question 2
+def enqueue(n):
+    global queue
+    queue.append(n)
+    return 
+
+def dequeue():
+    global queue
+    delitem=queue.pop(0)
+    return delitem
+
+def display():
+    print(queue)
+    return
+
+queue=[]
+
+while True:
+    print("\nSelect following operations :")
+    print("0. Exit")
+    print("1. Add Element")
+    print("2. Display all Elements")
+    print("3. Delete (First out)")
+
+    ch = int(input("\nEnter your choice : "))
+
+    if ch==0:
+        print("Exited")
+        break
+    elif ch==1:
+        i = input("Enter element = ")
+        enqueue(i)
+        print("Added")
+    elif ch==2:
+        display()
+    elif ch==3:
+        dequeue()
+        print("Deleted")
+    else:
+        print("Invalid Entry")
+
+#Question 3
+import math
+radius = int(input("Enter radius of circle = "))
+area = lambda r : math.pi*(r**2)
+print("Area of given circle = ", area(radius))
+
+#Slip19
+q1-
+class Person():
+
+	def setName(self):
+		self.name = 'ad'#input lena
+
+	def putName(self):
+		print(self.name)
+
+class Country():
+	def printNationality(self):
+		self.country = 'in'
+
+class State(Country, Person):
+	def printState(self):
+		self.state = 'mh'
+
+	def printData(self):
+		print(self.name, self.state, self.country)
+
+s = State()
+s.printState()
+s.printNationality()
+s.setName()
+s.printData()
+
+q2-
+
+
+q3
+def splitevenodd(A): 
+   evenlist = [] 
+   oddlist = [] 
+   for i in A: 
+      if (i % 2 == 0): 
+         evenlist.append(i) 
+      else: 
+         oddlist.append(i) 
+   print("Even lists:", evenlist) 
+   print("Odd lists:", oddlist) 
+  
+# Driver Code 
+A=list()
+n=int(input("Enter the size of the First List ::"))
+print("Enter the Element of First  List ::")
+for i in range(int(n)):
+   k=int(input(""))
+   A.append(k)
+splitevenodd(A) 
+
+#Slip 20
+#Question 1
+from tkinter import *
+root = Tk()
+root.title("Student Registration Form")
+root.geometry("500x500+50+50")
+
+name = Label(root, text = "Name : ", font = ("verdana",20,"bold"))
+gender = Label(root, text = "Gender : ", font = ("verdana",20,"bold"))
+nation = Label(root, text = "Nationality : ", font = ("verdana",20,"bold"))
+email = Label(root, text = "Email ID : ", font = ("verdana",20,"bold"))
+state = Label(root, text = "State : ", font = ("verdana",20,"bold"))
+marathi = Label(root, text = "Knowledge of Marathi : ", font = ("verdana",15,"bold"))
+
+name.grid(row = 0, column = 0, padx ="10", pady ="10")
+gender.grid(row = 1, column = 0, padx ="10", pady ="10")
+nation.grid(row = 2, column = 0, padx ="10", pady ="10")
+email.grid(row = 3, column = 0, padx ="10", pady ="10")
+state.grid(row = 4, column = 0, padx ="10", pady ="10")
+marathi.grid(row = 5, column = 0, padx ="10", pady ="10")
+
+v = StringVar()
+v.set("Select state from list")
+g = i = ch1 = ch2 = ch3 = IntVar()
+
+naav = Entry(root, text="",font = ("verdana",20))
+mail = Entry(root, text="",font = ("verdana",20))
+menu = OptionMenu(root, v, "d")
+male = Radiobutton(root, text="Male",font = ("verdana",20),value=10,var=g)
+female = Radiobutton(root, text="Female",font = ("verdana",20),value=20,var=g)
+indian = Radiobutton(root, text="Indian",font = ("verdana",20),value=100,var=i)
+nri = Radiobutton(root, text="NRI",font = ("verdana",20),value=200,var=i)
+c1 = Checkbutton(root, text="Read",font = ("verdana",20),var=ch1)
+c2 = Checkbutton(root, text="Write",font = ("verdana",20),var=ch3)
+c3 = Checkbutton(root, text="Speak",font = ("verdana",20),var=ch3)
+
+naav.grid(row = 0, column = 1, padx ="10", pady ="10")
+mail.grid(row = 3, column = 1, padx ="10", pady ="10")
+menu.grid(row = 4, column = 1, padx ="10", pady ="10")
+male.grid(row = 1, column = 1, padx ="10", pady ="10")
+female.grid(row = 1, column = 2, padx ="10", pady ="10")
+indian.grid(row = 2, column = 1, padx ="10", pady ="10")
+nri.grid(row = 2, column = 2, padx ="10", pady ="10")
+c1.grid(row = 5, column = 1, padx ="10", pady ="10")
+c2.grid(row = 5, column = 2, padx ="10", pady ="10")
+c3.grid(row = 5, column = 3, padx ="10", pady ="10")
+
+submit = Button(root, text="SUBMIT",font = ("verdana",20))
+exi = Button(root, text="EXIT",font = ("verdana",20))
+
+submit.grid(row = 6, column = 1, padx ="10", pady ="10")
+exi.grid(row = 6, column = 2, padx ="10", pady ="10")
+root.mainloop()
+
+#Question 2
+f = open(r"G:\pune.txt",encoding="utf-8")
+n=0
+line = ""
+data = f.readlines()
+for i in data:
+    if len(i)>n:
+        n = len(i)
+        line=i
+print(line)
+f.close()
+
+#Question 3
+color = ['Red','Green','Black']
+print(color)
+
+for i in range(0,len(color)+3,2):
+    color.insert(i,'c')
+print(color)

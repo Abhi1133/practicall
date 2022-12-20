@@ -1,0 +1,2144 @@
+Assignment no-4
+mfu
+#include<stdio.h>
+#define MAX 20
+
+int frames[MAX],ref[MAX],mem[MAX][MAX],faults,
+ sp,m,n,count[MAX];
+
+void accept()
+{
+ int i;
+
+ printf("Enter no.of frames:");
+ scanf("%d", &n);
+
+ printf("Enter no.of references:");
+ scanf("%d", &m);
+
+ printf("Enter reference string:\n");
+ for(i=0;i<m;i++)
+ {
+  printf("[%d]=",i);
+  scanf("%d",&ref[i]);
+ }
+}
+
+void disp()
+{
+ int i,j;
+
+ for(i=0;i<m;i++)
+  printf("%3d",ref[i]);
+
+ printf("\n\n");
+
+ for(i=0;i<n;i++)
+ {
+  for(j=0;j<m;j++)
+  {
+   if(mem[i][j])
+    printf("%3d",mem[i][j]);
+   else
+    printf("   ");
+  }
+  printf("\n");
+ }
+
+ printf("Total Page Faults: %d\n",faults);
+}
+
+int search(int pno)
+{
+ int i;
+
+ for(i=0;i<n;i++)
+ {
+  if(frames[i]==pno)
+   return i;
+ }
+
+ return -1;
+}
+
+int get_mfu(int sp)
+{
+ int i,max_i,max=-9999;
+
+ i=sp;
+ do
+ {
+  if(count[i]>max)
+  {
+   max = count[i];
+   max_i = i;
+  }
+  i=(i+1)%n;
+ }while(i!=sp);
+
+ return max_i;
+}
+
+void mfu()
+{
+ int i,j,k;
+
+ for(i=0;i<m && sp<n;i++)
+ {
+  k=search(ref[i]);
+  if(k==-1)
+  {
+   frames[sp]=ref[i];
+   count[sp]++;
+   faults++;
+   sp++;
+
+   for(j=0;j<n;j++)
+    mem[j][i]=frames[j];
+  }
+  else
+   count[k]++;
+ 
+ }
+
+ sp=0;
+ for(;i<m;i++)
+ {
+  k = search(ref[i]);
+  if(k==-1)
+  {
+   sp = get_mfu(sp);
+   frames[sp] = ref[i];
+   count[sp]=1;
+   faults++;
+   sp = (sp+1)%n;
+
+   for(j=0;j<n;j++)
+    mem[j][i] = frames[j];
+  }
+  else
+   count[k]++;
+ }
+}
+     
+
+int main()
+{
+ accept();
+ mfu();
+ disp();
+
+ return 0;
+}
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+2]lru
+#include<stdio.h>
+#define MAX 20
+
+int frames[MAX],ref[MAX],mem[MAX][MAX],faults,
+	sp,m,n,time[MAX];
+
+void accept()
+{
+	int i;
+
+	printf("Enter no.of frames:");
+	scanf("%d", &n);
+
+	printf("Enter no.of references:");
+	scanf("%d", &m);
+
+	printf("Enter reference string:\n");
+	for(i=0;i<m;i++)
+	{
+		printf("[%d]=",i);
+		scanf("%d",&ref[i]);
+	}
+}
+
+void disp()
+{
+	int i,j;
+
+	for(i=0;i<m;i++)
+		printf("%3d",ref[i]);
+
+	printf("\n\n");
+
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			if(mem[i][j])
+				printf("%3d",mem[i][j]);
+			else
+				printf("   ");
+		}
+		printf("\n");
+	}
+
+	printf("Total Page Faults: %d\n",faults);
+}
+
+int search(int pno)
+{
+	int i;
+
+	for(i=0;i<n;i++)
+	{
+		if(frames[i]==pno)
+			return i;
+	}
+
+	return -1;
+}
+
+int get_lru()
+{
+	int i,min_i,min=9999;
+
+	for(i=0;i<n;i++)
+	{
+		if(time[i]<min)
+		{
+			min = time[i];
+			min_i = i;
+		}
+	}
+
+	return min_i;
+}
+
+
+void lru()
+{
+	int i,j,k;
+
+	for(i=0;i<m && sp<n;i++)
+	{
+		k=search(ref[i]);
+		if(k==-1)
+		{
+			frames[sp]=ref[i];
+			time[sp]=i;
+			faults++;
+			sp++;
+
+			for(j=0;j<n;j++)
+				mem[j][i]=frames[j];
+		}
+		else
+			time[k]=i;
+		
+	}
+
+	for(;i<m;i++)
+	{
+		k = search(ref[i]);
+		if(k==-1)
+		{
+			sp = get_lru();
+			frames[sp] = ref[i];
+			time[sp] = i;
+			faults++;
+
+			for(j=0;j<n;j++)
+				mem[j][i] = frames[j];
+		}
+		else
+			time[k]=i;
+	}
+}
+						
+
+int main()
+{
+	accept();
+	lru();
+	disp();
+
+	return 0;
+}
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+3]fifo
+#include<stdio.h>
+#define MAX 20
+int frames[MAX],ref[MAX],mem[MAX][MAX],faults,sp,m,n;
+void accept()
+{
+	int i;
+	printf("ENTER NO. OF FRAMES: ");
+	scanf("%d",&n);
+	printf("ENTER NO. OF REFERENCES: ");
+	scanf("%d",&m);
+	printf("ENTER REFERENCE STRING: \n");
+	for(i=0;i<m;i++)
+	{
+		printf("[%d]=",i);
+		scanf("%d",&ref[i]);
+	}
+}
+void disp()
+{
+	int i,j;
+	for(i=0;i<m;i++)
+		printf("%d",ref[i]);
+	printf("\n\n");for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			if(mem[i][j])
+				printf("%3d",mem[i][j]);
+			else
+				printf(" ");
+		}
+		printf("\n");
+	}
+	printf("TOTAL PAGE FAULT %d\n",faults);
+}
+int search(int pno)
+{
+	int i;
+	for(i=0;i<n;i++)
+	{
+		if(frames[i]==pno)
+			return i;
+	}
+	return -1;
+}
+void fifo()
+{
+	int i,j;
+	for(i=0;i<m;i++)
+	{
+		if(search(ref[i])==-1)
+		{
+			frames[sp]=ref[i];
+			sp=(sp+1)%n;
+			faults++;
+			for(j=0;j<n;j++)
+				mem[j][i]=frames[j];
+		}
+	}
+}
+int main()
+{
+	accept();
+	fifo();
+	disp();
+	return 0;
+}
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+4]optimals.
+#include<stdio.h>
+int n;
+int main()
+{
+	int seq[30],fr[5],pos[5],find,flag,max,i,j,m,k,t,s;
+	int count=1,pf=0,p=0;
+	float pfr; 
+	printf("Enter maximum limit of the sequence: ");
+	scanf("%d",&max);
+	printf("\nEnter the sequence: ");
+ 	for(i=0;i<max;i++)
+	scanf("%d",&seq[i]);
+	 printf("\nEnter no. of frames: ");
+ 	scanf("%d",&n);
+	fr[0]=seq[0]; 
+	pf++;
+	printf("%d\t",fr[0]);
+	i=1;
+	while(count<n)
+	{
+		flag=1; p++;
+		for(j=0;j<i;j++)
+		{
+			if(seq[i]==seq[j]) flag=0;
+		}
+		if(flag!=0)
+		{
+ 			fr[count]=seq[i];
+ 			printf("%d\t",fr[count]);
+ 			count++;
+			pf++;
+
+		}
+		i++;
+	}
+  
+	printf("\n");
+	for(i=p;i<max;i++)
+	{
+		flag=1;
+		for(j=0;j<n;j++)
+		{
+			if(seq[i]==fr[j])
+			flag=0;
+		}
+		if(flag!=0)
+		{
+			for(j=0;j<n;j++)
+			{
+				m=fr[j];
+				for(k=i;k<max;k++)
+				{
+					if(seq[k]==m)
+					{
+    						pos[j]=k;
+     						break;
+					 }
+					else
+					pos[j]=1;
+				}
+	}
+	for(k=0;k<n;k++)
+	{
+		if(pos[k]==1)
+		flag=0;
+	}
+	if(flag!=0)
+		s=findmax(pos);
+ 	if(flag==0)
+	{
+		for(k=0;k<n;k++)
+		{
+			if(pos[k]==1)
+			{
+				s=k;
+ 				break;
+			}
+		}
+	}
+	fr[s]=seq[i];
+	for(k=0;k<n;k++)
+	printf("%d\t",fr[k]);
+	pf++;
+	printf("\n");
+	}
+}
+printf("\nThe no. of page faults are %d",pf);
+
+}
+int findmax(int a[])
+{
+    int max,i,k=0;
+    max=a[0];
+    for(i=0;i<n;i++)
+   {
+     if(max<a[i])
+     {
+        max=a[i];
+        k=i;
+    }
+
+  }
+
+return k;
+}
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Assignment no-3
+1]Write the program to simulate FCFS CPU-scheduling. The arrival time and first CPUburst for different n number of processes should be input to the algorithm. Assume that the fixed IO waiting time (2 units). The next CPU-burst should be generated randomly.The output should give Gantt chart, turnaround time and waiting time for each process.Also find the average waiting time and turnaround time.
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+struct job
+{
+	char name[20];
+	int at,bt,ct,tat,wt,st,tbt;
+}job[10];
+int n,i,j;
+float avg_tat =0;
+float avg_wt = 0;
+void take_input()
+{
+	printf("Enetr the process number : ");
+	scanf("%d",&n);
+	for(i=1;i<=n;i++)
+	{
+		printf("Enter the names of process %d : ",i);
+		scanf("%s",&job[i].name);
+	}
+	printf("\n");
+	for(i=1;i<=n;i++)
+	{
+		printf("Enter the arival time of the proess %d : ",i);
+		scanf("%d",&job[i].at);
+	}
+	printf("\n");
+	for(i=1;i<=n;i++)
+	{
+		printf("Enter the burst time of the process %d : ",i);
+		scanf("%d",&job[i].bt);
+		job[i].tbt = job[i].bt;
+	}
+
+}
+void sort()
+{
+	struct job temp;
+	for(i=1;i<=n;i++)
+	{
+		for(j=i+1;j<n;j++)
+		{
+			if(job[i].at>job[j].at)
+			{
+				temp = job[i];
+				job[i] = job[j];
+				job[j] = temp;
+			}
+		}
+	}
+}
+
+void process()
+{
+	int time =job[1].at;
+	for(j=1;j<=n;j++)
+	{	
+		job[j].st = time;
+		printf("| %d %s ",job[j].st,job[j].name);
+		time = time+job[j].tbt;
+		job[j].ct = time;
+		job[j].tat = time-job[j].at;
+		job[j].wt = job[j].tat - job[j].tbt;
+		printf("%d  | ",time);
+	}
+}
+
+void print_output()
+{
+	printf("\n\n");
+	printf("\n-------------------------------------------------------------------------------------");
+	printf("\n pname		AT		BT		WT		TAT");
+	printf("\n-------------------------------------------------------------------------------------");
+	for(i=1;i<=n;i++)
+	{
+		printf("\n%s		%8d		%5d		%4d		%3d ",job[i].name,job[i].at,job[i].bt,job[i].wt,job[i].tat);
+		avg_tat = (float)avg_tat + (float)(job[i].tat);
+		avg_wt  = (float)avg_wt  + (float)(job[i].wt);		
+	}
+	printf("\n-------------------------------------------------------------------------------------");
+	printf("\nThe avg of the Wating time is %f ",avg_wt/n);
+	printf("\nThe avg of the Turn around time is %f ",avg_tat/n);
+}
+int main()
+{
+	int i;
+	take_input();
+	sort();
+	process();
+	print_output();
+	printf("\n\n");
+	for(i=1;i<=n;i++)
+	{
+		job[i].tbt = job[i].bt = rand()%8+1;
+		job[i].at = job[i].ct+2;
+	}
+	process();
+	print_output();
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+2]nonp_priority
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+struct process
+{
+	int first_bt,temp_bt,priority,next_bt,at,ft,tat,wt;
+}
+p[100];
+struct schedule
+{
+	int end_time,pid;
+}sch[100];
+int sch_cnt;  //schedule counter
+int ct;  // current time
+int np;	 // Number of process
+int i;
+void take_input()
+{
+	printf("Enter the number of process :  ");
+	scanf("%d",&np);
+	
+	
+	for(i=0;i<np;i++)
+	{
+		printf("Enter the arival time of the proess %d : ",i);
+		scanf("%d",&p[i].at);
+	}
+	printf("\n");
+	
+	for(i=0;i<np;i++)
+	{
+		printf("Enter the priority of the proess %d : ",i);
+		scanf("%d",&p[i].priority);
+	}
+	
+	printf("\n");
+	for(i=0;i<np;i++)
+	{
+		printf("Enter the burst time of the process %d : ",i);
+		scanf("%d",&p[i].first_bt);
+		p[i].temp_bt = p[i].first_bt;
+	}
+}
+
+void take_rinput()
+{
+	for(i=0;i<np;i++)
+	{
+		p[i].next_bt = rand()%10+1;
+		p[i].temp_bt = p[i].next_bt;
+	}
+}
+
+int getProcessBySJF()
+{
+	int minp = -1;
+	int minat = 32768;
+
+	for(i=0;i<np;i++)
+	{
+		if(p[i].at<=ct && p[i].temp_bt >0 && p[i].priority<minat)
+		{
+			minp = i;
+			minat = p[i].priority;
+		}
+	}
+	return minp;
+}
+
+void showGanttChart()
+{
+	for(i=0;i<sch_cnt*5;i++)
+		printf("-");
+	printf("\n|");
+
+	for(i=0;i<sch_cnt;i++)
+		printf("P%d |",sch[i].pid);
+	printf("\n");
+
+	for(i=0;i<sch_cnt*5;i++)
+		printf("-");
+	printf("\n0");
+
+	for(i=0;i<sch_cnt;i++)
+		printf("%5d",sch[i].end_time);
+}
+
+void print_output()
+{
+	float avgtat = 0,avgwt =0;
+	printf("\n");
+	printf("\n PID \tFBT \t Prio \t AT \t FT \t TAT \t WT \n");
+	for(i=0;i<np;i++)
+	{
+		printf("\nP%d \t %d \t %d \t %d \t %d \t %d \t %d\n",i,p[i].first_bt,p[i].priority,p[i].at,p[i].ft,p[i].tat,p[i].wt);
+		
+	
+	
+	avgtat = avgtat + p[i].tat;
+	avgwt  = avgwt  + p[i].wt;
+	}
+		
+	printf("Average  turn around time : %f",(float)avgtat/np);
+	printf("\nAverage waiting time : %f\n",(float)avgwt/np);
+}
+
+void main()
+{
+	take_input();
+	//to process first burst time of each process
+	while(1)
+	{
+		int x = getProcessBySJF();
+		if(x==-1)    // if no process, will return -1
+			break;
+		sch[sch_cnt].pid = x;
+		ct += p[x].temp_bt;
+		p[x].temp_bt = 0;
+		p[x].ft = ct;
+		sch[sch_cnt].end_time = ct;
+		sch_cnt++;
+		p[x].tat = p[x].ft-p[x].at;
+		p[x].wt = p[x].tat-p[x].first_bt;
+	}
+	showGanttChart();
+	print_output();
+	
+	/*take_rinput();
+	
+	//To process Next Burst Time of each process
+     
+	     while(1)
+		{
+			int x = getProcessBySJF();
+			if(x==-1)    // if no process, will return -1
+				break;
+			sch[sch_cnt].pid = x;
+			ct += p[x].temp_bt;
+			p[x].priority_bt = 0;
+			p[x].ft = ct;
+			sch[sch_cnt].end_time = ct;
+			sch_cnt++;
+			p[x].tat = p[x].ft-p[x].at;
+			p[x].wt = p[x].tat-p[x].first_bt-p[x].next_bt-2;
+		}
+		showGanttChart();
+		print_output();
+		
+	*/	
+}
+
+
+
+
+=------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+Set b
+3]preemptive shortest job first
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+struct process
+{
+	int first_bt,temp_bt,priority,next_bt,at,ft,tat,wt;
+}
+p[100];
+struct schedule
+{
+	int end_time,pid;
+}sch[100];
+int sch_cnt;  //schedule counter
+int ct;  // current time
+int np;	 // Number of process
+int i;
+void take_input()
+{
+	printf("Enter the number of process :  ");
+	scanf("%d",&np);
+	
+	
+	for(i=0;i<np;i++)
+	{
+		printf("Enter the arival time of the proess %d : ",i);
+		scanf("%d",&p[i].at);
+	}
+	printf("\n");
+	for(i=0;i<np;i++)
+	{
+		printf("Enter the priority of the proess %d : ",i);
+		scanf("%d",&p[i].priority);
+	}
+	
+	printf("\n");
+	for(i=0;i<np;i++)
+	{
+		printf("Enter the burst time of the process %d : ",i);
+		scanf("%d",&p[i].first_bt);
+		p[i].temp_bt = p[i].first_bt;
+	}
+}
+
+void take_rinput()
+{
+	for(i=0;i<np;i++)
+	{
+		p[i].next_bt = rand()%10+1;
+		p[i].temp_bt = p[i].next_bt;
+	}
+}
+
+int getProcessBySJF()
+{
+	int minp = -1;
+	int minat = 32768;
+
+	for(i=0;i<np;i++)
+	{
+		if(p[i].at<=ct && p[i].temp_bt >0 && p[i].priority<minat)
+		{
+			minp = i;
+			minat = p[i].priority;
+		}
+	}
+	return minp;
+}
+
+void showGanttChart()
+{
+	for(i=0;i<sch_cnt*5;i++)
+		printf("-");
+	printf("\n|");
+
+	for(i=0;i<sch_cnt;i++)
+		printf("P%d |",sch[i].pid);
+	printf("\n");
+
+	for(i=0;i<sch_cnt*5;i++)
+		printf("-");
+	printf("\n0");
+
+	for(i=0;i<sch_cnt;i++)
+		printf("%5d",sch[i].end_time);
+}
+
+void print_output()
+{
+	float avgtat = 0,avgwt =0;
+	printf("\n");
+	printf("\n PID \tFBT \t pri \t AT \t FT \t TAT \t WT \n");
+	for(i=0;i<np;i++)
+	{
+		printf("\nP%d \t %d \t %d \t %d \t %d \t %d \t %d\n",i,p[i].first_bt,p[i].priority,p[i].at,p[i].ft,p[i].tat,p[i].wt);
+		
+	
+	
+	avgtat = avgtat + p[i].tat;
+	avgwt  = avgwt  + p[i].wt;
+	}
+		
+	printf("Average  turn around time : %f",(float)avgtat/np);
+	printf("\nAverage waiting time : %f\n",(float)avgwt/np);
+}
+
+void main()
+{
+	take_input();
+	//to process first burst time of each process
+	while(1)
+	{
+		int x = getProcessBySJF();
+		if(x==-1)    // if no process, will return -1
+			break;
+		sch[sch_cnt].pid = x;
+		//ct += p[x].temp_bt;
+		ct++;
+		p[x].temp_bt--;
+		//p[x].temp_bt = 0;
+		p[x].ft = ct;
+		sch[sch_cnt].end_time = ct;
+		sch_cnt++;
+		if(p[x].temp_bt==0)
+			p[x].ft=ct;
+		p[x].tat = p[x].ft-p[x].at;
+		p[x].wt = p[x].tat-p[x].first_bt;
+	}
+	showGanttChart();
+	print_output();
+	
+	take_rinput();
+	
+	//To process Next Burst Time of each process
+     
+	     while(1)
+		{
+			int x = getProcessBySJF();
+			if(x==-1)    // if no process, will return -1
+				break;
+			sch[sch_cnt].pid = x;
+			ct += p[x].temp_bt;
+			p[x].temp_bt = 0;
+			p[x].ft = ct;
+			sch[sch_cnt].end_time = ct;
+			sch_cnt++;
+			p[x].tat = p[x].ft-p[x].at;
+			p[x].wt = p[x].tat-p[x].first_bt-p[x].next_bt-2;
+		}
+		showGanttChart();
+		print_output();
+		
+	
+}
+
+
+
+
+
+
+
+
+======--------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+4]sjf
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+struct process
+{
+	int first_bt,temp_bt,next_bt,at,ft,tat,wt;
+}
+p[100];
+struct schedule
+{
+	int end_time,pid;
+}sch[100];
+int sch_cnt;  //schedule counter
+int ct;  // current time
+int np;	 // Number of process
+int i;
+void take_input()
+{
+	printf("Enter the number of process :  ");
+	scanf("%d",&np);
+	
+	
+	for(i=0;i<np;i++)
+	{
+		printf("Enter the arival time of the proess %d : ",i);
+		scanf("%d",&p[i].at);
+	}
+	printf("\n");
+	for(i=0;i<np;i++)
+	{
+		printf("Enter the burst time of the process %d : ",i);
+		scanf("%d",&p[i].first_bt);
+		p[i].temp_bt = p[i].first_bt;
+	}
+}
+
+void take_rinput()
+{
+	for(i=0;i<np;i++)
+	{
+		p[i].next_bt = rand()%10+1;
+		p[i].temp_bt = p[i].next_bt;
+	}
+}
+
+int getProcessBySJF()
+{
+	int minp = -1;
+	int minat = 32768;
+
+	for(i=0;i<np;i++)
+	{
+		if(p[i].at<=ct && p[i].temp_bt >0 && p[i].temp_bt<minat)
+		{
+			minp = i;
+			minat = p[i].temp_bt;
+		}
+	}
+	return minp;
+}
+
+void showGanttChart()
+{
+	for(i=0;i<sch_cnt*5;i++)
+		printf("-");
+	printf("\n|");
+
+	for(i=0;i<sch_cnt;i++)
+		printf("P%d |",sch[i].pid);
+	printf("\n");
+
+	for(i=0;i<sch_cnt*5;i++)
+		printf("-");
+	printf("\n0");
+
+	for(i=0;i<sch_cnt;i++)
+		printf("%5d",sch[i].end_time);
+}
+
+void print_output()
+{
+	float avgtat = 0,avgwt =0;
+	printf("\n");
+	printf("\n PID \tFBT \t RBT \t AT \t FT \t TAT \t WT \n");
+	for(i=0;i<np;i++)
+	{
+		printf("\nP%d \t %d \t %d \t %d \t %d \t %d \t %d\n",i,p[i].first_bt,p[i].next_bt,p[i].at,p[i].ft,p[i].tat,p[i].wt);
+		
+	
+	
+	avgtat = avgtat + p[i].tat;
+	avgwt  = avgwt  + p[i].wt;
+	}
+		
+	printf("Average  turn around time : %f",(float)avgtat/np);
+	printf("\nAverage waiting time : %f\n",(float)avgwt/np);
+}
+
+void main()
+{
+	take_input();
+	//to process first burst time of each process
+	while(1)
+	{
+		int x = getProcessBySJF();
+		if(x==-1)    // if no process, will return -1
+			break;
+		sch[sch_cnt].pid = x;
+		ct += p[x].temp_bt;
+		p[x].temp_bt = 0;
+		p[x].ft = ct;
+		sch[sch_cnt].end_time = ct;
+		sch_cnt++;
+		p[x].tat = p[x].ft-p[x].at;
+		p[x].wt = p[x].tat-p[x].first_bt;
+	}
+	showGanttChart();
+	print_output();
+	
+	take_rinput();
+	
+	//To process Next Burst Time of each process
+     
+	     while(1)
+		{
+			int x = getProcessBySJF();
+			if(x==-1)    // if no process, will return -1
+				break;
+			sch[sch_cnt].pid = x;
+			ct += p[x].temp_bt;
+			p[x].temp_bt = 0;
+			p[x].ft = ct;
+			sch[sch_cnt].end_time = ct;
+			sch_cnt++;
+			p[x].tat = p[x].ft-p[x].at;
+			p[x].wt = p[x].tat-p[x].first_bt-p[x].next_bt-2;
+		}
+		showGanttChart();
+		print_output();
+		
+		
+}
+
+
+
+
+
+=----------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+Set C
+5]sjf_preemptive
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+struct process
+{
+	int first_bt,temp_bt,next_bt,at,ft,tat,wt;
+}
+p[100];
+struct schedule
+{
+	int end_time,pid;
+}sch[100];
+int sch_cnt;  //schedule counter
+int ct;  // current time
+int np;	 // Number of process
+int i;
+void take_input()
+{
+	printf("Enter the number of process :  ");
+	scanf("%d",&np);
+	
+	
+	for(i=0;i<np;i++)
+	{
+		printf("Enter the arival time of the proess %d : ",i);
+		scanf("%d",&p[i].at);
+	}
+	printf("\n");
+	for(i=0;i<np;i++)
+	{
+		printf("Enter the burst time of the process %d : ",i);
+		scanf("%d",&p[i].first_bt);
+		p[i].temp_bt = p[i].first_bt;
+	}
+}
+
+void take_rinput()
+{
+	for(i=0;i<np;i++)
+	{
+		p[i].next_bt = rand()%10+1;
+		p[i].temp_bt = p[i].next_bt;
+	}
+}
+
+int getProcessBySJF()
+{
+	int minp = -1;
+	int minat = 32768;
+
+	for(i=0;i<np;i++)
+	{
+		if(p[i].at<=ct && p[i].temp_bt >0 && p[i].temp_bt<minat)
+		{
+			minp = i;
+			minat = p[i].temp_bt;
+		}
+	}
+	return minp;
+}
+
+void showGanttChart()
+{
+	for(i=0;i<sch_cnt*5;i++)
+		printf("-");
+	printf("\n|");
+
+	for(i=0;i<sch_cnt;i++)
+		printf("P%d |",sch[i].pid);
+	printf("\n");
+
+	for(i=0;i<sch_cnt*5;i++)
+		printf("-");
+	printf("\n0");
+
+	for(i=0;i<sch_cnt;i++)
+		printf("%5d",sch[i].end_time);
+}
+
+void print_output()
+{
+	float avgtat = 0,avgwt =0;
+	printf("\n");
+	printf("\n PID \tFBT \t RBT \t AT \t FT \t TAT \t WT \n");
+	for(i=0;i<np;i++)
+	{
+		printf("\nP%d \t %d \t %d \t %d \t %d \t %d \t %d\n",i,p[i].first_bt,p[i].next_bt,p[i].at,p[i].ft,p[i].tat,p[i].wt);
+		
+	
+	
+	avgtat = avgtat + p[i].tat;
+	avgwt  = avgwt  + p[i].wt;
+	}
+		
+	printf("Average  turn around time : %f",(float)avgtat/np);
+	printf("\nAverage waiting time : %f\n",(float)avgwt/np);
+}
+
+void main()
+{
+	take_input();
+	//to process first burst time of each process
+	while(1)
+	{
+		int x = getProcessBySJF();
+		if(x==-1)    // if no process, will return -1
+			break;
+		sch[sch_cnt].pid = x;
+		//ct += p[x].temp_bt;
+		ct++;
+		p[x].temp_bt--;
+		//p[x].temp_bt = 0;
+		p[x].ft = ct;
+		sch[sch_cnt].end_time = ct;
+		sch_cnt++;
+		if(p[x].temp_bt==0)
+			p[x].ft=ct;
+		p[x].tat = p[x].ft-p[x].at;
+		p[x].wt = p[x].tat-p[x].first_bt;
+	}
+	showGanttChart();
+	print_output();
+	
+	take_rinput();
+	
+	//To process Next Burst Time of each process
+     
+	     while(1)
+		{
+			int x = getProcessBySJF();
+			if(x==-1)    // if no process, will return -1
+				break;
+			sch[sch_cnt].pid = x;
+			ct += p[x].temp_bt;
+			p[x].temp_bt = 0;
+			p[x].ft = ct;
+			sch[sch_cnt].end_time = ct;
+			sch_cnt++;
+			p[x].tat = p[x].ft-p[x].at;
+			p[x].wt = p[x].tat-p[x].first_bt-p[x].next_bt-2;
+		}
+		showGanttChart();
+		print_output();
+		
+	
+}
+
+
+
+
+
+==================================================================================================
+
+
+
+
+
+6]round robin
+#include<stdio.h>
+#include<stdlib.h>
+struct Process
+{
+	int first_bt,next_bt,at,ft,tat,wt,temp_bt;
+}P[100];
+
+struct Schedule
+{
+	int pid,endtime;
+}sch[100];
+
+int sch_cnt;    //Schedule Counter
+int ct;        //Current time
+int np;       //Number of processes
+int i;
+int tq;     //time quantum/time slice
+
+
+void accept()
+{
+	printf("Enter the number of processes:");
+	scanf("%d",&np);
+
+	for(i=0;i<np;i++)
+	{
+		printf("Enter the arrival time:");
+		scanf("%d",&P[i].at);
+
+		printf("Enter the first burst time:");
+		scanf("%d",&P[i].first_bt);
+		
+		P[i].next_bt=rand()%10+1;
+		P[i].temp_bt=P[i].first_bt;
+		
+	}
+        printf("Enter the time quantum:");
+        scanf("%d",&tq);
+}
+
+int getProcessByRoundrobin()
+{
+	int minp=-1;
+	int minat=32768;
+
+	for(i=0;i<np;i++)
+	{
+		if(P[i].at<=ct && P[i].temp_bt>0 && P[i].at<minat)
+		{
+			minp=i;
+			minat=P[i].at;
+		}
+	}
+        return minp;
+}
+
+
+void showGanttChart()
+{
+	for(i=0;i<sch_cnt*5;i++)
+	printf("-");
+	printf("\n|");
+	
+        for(i=0;i<sch_cnt;i++)
+	printf(" P%d |",sch[i].pid);
+	printf("\n");
+	
+        for(i=0;i<sch_cnt*5;i++)
+	printf("-");
+	printf("\n0");
+
+	for(i=0;i<sch_cnt;i++)
+	printf("%5d",sch[i].endtime);
+}
+
+void showPT()
+{  
+	float avgtat=0,avgwt=0;
+        printf("\n");
+	printf("\nPID\tFBT\tNBT\tAT\tFT\tTAT\tWT\n");
+	for(i=0;i<np;i++)
+	{
+		printf("\n%d\t%d\t%d\t%d\t%d\t%d\t%d\n",i,P[i].first_bt,P[i].next_bt,P[i].at,P[i].ft,P[i].tat,P[i].wt);
+		avgtat+=P[i].tat;
+		avgwt+=P[i].wt;
+	}
+
+	avgtat=avgtat/np;
+	avgwt=avgwt/np;
+
+	printf("Average turn arount time:%f",avgtat);
+	printf("\nAverage waiting time:%f\n",avgwt);
+}
+
+void main()
+{
+	accept();
+    // To schedule first burst time of each process
+	while(1)
+	{
+		int x=getProcessByRoundrobin();
+		if(x==-1)              //if no process will return -1
+			break;
+
+		sch[sch_cnt].pid=x;
+		if(P[x].temp_bt<tq)
+        //suppose P[x].temp_bt=3    and    tq=4
+		{
+			ct=ct+P[x].temp_bt;
+			P[x].temp_bt=0;
+		}
+		else //  suppose P[x].temp_bt=6    and    tq=4
+		{
+			ct=ct+tq;
+			P[x].temp_bt=P[x].temp_bt-tq;
+		}
+		sch[sch_cnt].endtime=ct;
+		sch_cnt++;
+	}
+
+	for(i=0;i<np;i++)
+	{
+		P[i].temp_bt=P[i].next_bt;         
+	}
+    // To schedule Next Burst Time of each process
+	while(1)
+	{
+		int x=getProcessByRoundrobin();
+		if(x==-1)
+			break;
+
+		sch[sch_cnt].pid=x;
+		if(P[x].temp_bt<tq)
+		{
+			ct=ct+P[x].temp_bt;
+			P[x].temp_bt=0;
+		}
+		else
+		{
+			ct=ct+tq;
+			P[x].temp_bt=P[x].temp_bt-tq;
+		}
+		sch[sch_cnt].endtime=ct;
+		sch_cnt++;
+
+		if(P[x].temp_bt==0)
+		{
+			  P[x].ft=ct;                  
+			  P[x].tat=P[x].ft-P[x].at;
+		      P[x].wt=P[x].tat-P[x].first_bt-P[x].next_bt-2;
+        }
+	}
+
+	showGanttChart();
+	showPT();
+} 
+
+----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+Assignment no-1
+1]Implement the C Program to create a child process using fork(), display parent and child
+process id. Child process will display the message “I am Child Process” and the parent
+process should display “I am Parent Process”.
+#include<stdio.h>
+#include<sys/types.h>
+#include<unistd.h>
+#include<ctype.h>
+#include<stdlib.h>
+void ChildProcess();
+void ParentProcess();
+int main()
+{
+    pid_t pid;
+    pid = fork();
+    if(pid==0)
+    {
+        printf("Process I'd of child process is %d\n",pid);
+        ChildProcess();
+    }
+    else
+    {
+        printf("Process I'd of parent process is %d\n",pid);
+        ParentProcess();
+    }
+    return 0;
+}
+void ChildProcess()
+{
+    printf("I am child process\n");
+}
+void ParentProcess()
+{
+    printf("I am parent process\n");
+}
+
+
+
+
+---------------------------------------------------------------------------------------------------------
+
+
+
+
+
+2]Write a program that demonstrates the use of nice() system call. After a child process is started using fork(), assign higher priority to the child using nice() system call
+#include<sys/types.h>
+#include<stdio.h>
+#include<unistd.h>
+int main()
+{
+    int pid,retnice;
+    printf("Press DEL to stop process\n");
+    pid=fork();
+    for(;;)
+    {
+        if(pid==0)
+        {
+            retnice=nice(-5);
+            printf("Child gets higher CPU priority %d \n",retnice);
+            sleep(10);
+        }
+        else
+        {
+            retnice=nice(4);
+            printf("Parent gets lower CPU priority %d \n",retnice);
+            sleep(10);
+        }
+    }
+}
+
+
+
+
+-----------------------------------------------------------------------------------------------
+
+
+
+
+
+Set-b
+1] Implement the C program to accept n integers to be sorted. Main function creates childprocess using fork system call. Parent process sorts the integers using bubble sort and waits for child process using wait system call. Child process sorts the integers using insertion sort
+#include<stdio.h>
+#include<sys/types.h>
+#include<unistd.h>
+
+void childprocess();
+void parentprocess();
+void insertionsort();
+void bubblesort();
+void accept();
+void display();
+int a[10],n,i;
+
+int main()
+{
+printf("Enter the limit:");
+scanf("%d",&n);
+printf("\nEnter the elements:");
+accept();
+printf("\nUnsorted Elements:\t");
+display();
+pid_t pid;
+pid=fork();
+if(pid==0)
+{
+childprocess();
+}
+else
+{
+parentprocess();
+}
+}
+void childprocess()
+{
+printf("\nIn child process we have to sort elements using insertion sort:");
+printf("\nSorted Elements:\t");
+insertionsort();
+display();
+}
+void parentprocess()
+{
+printf("\nIn parent process we have to sort elements using bubble sort:");
+printf("\nSorted Elements:\t");
+bubblesort();
+display();
+}
+void accept()
+{
+for(i=0;i<n;i++)
+scanf("%d",&a[i]);
+}
+void display()
+{
+for(i=0;i<n;i++)
+printf("%d\t",a[i]);
+}
+void insertionsort()
+{
+int t,j,k;
+for(i=1;i<n;i++)
+{
+t=a[i];
+for(j=0;j<i;j++)
+{
+if(a[i]<a[j])
+{
+for(k=i;k>j;k--)
+a[k]=a[k-1];
+a[j]=t;
+}
+}
+}
+}
+void bubblesort()
+{
+ int t,j;
+ for(i=n-1;i>=1;i--)
+ {
+for(j=0;j<=i-1;j++)
+{
+if(a[j]>a[j+1])
+{
+t=a[j];
+a[j]=a[j+1];
+a[j+1]=t;
+}
+}
+}
+}
+
+
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+2]Write a C program to illustrate the concept of orphan process. Parent process creates a child and terminates before child has finished its task. So child process becomes orphan process. (Use fork(), sleep(), getpid(), getppid()).
+#include<stdio.h>
+#include<sys/types.h>
+#include<unistd.h>
+
+int main()
+{
+    int pid=fork();
+    if(pid>0)
+    {
+        printf("I am Parent Process\n");
+        printf("Process I'd is %d\n",getpid());
+    }
+    else if(pid==0)
+    {
+        printf("I am Child Process\n");
+        printf("Child Process I'd is %d \n",getpid());
+        printf("Parent's Process I'd is %d \n",getppid());
+
+        sleep(5);
+
+        printf("\n I am Child Process\n");
+        printf("Child I'd is %d \n",getpid());
+        printf("Parent Process I'd is %d \n",getppid());
+    }
+    else
+    {
+        printf("\nFailed to create child process\n");
+    }
+    return 0;
+}
+
+
+
+
+
+----------------------------------------------------------------
+
+
+
+
+
+
+Assignment no-2
+set-a
+1]Write a C program that behaves like a shell which displays the command prompt ‘myshell$’. It
+accepts the command, tokenize the command line and execute it by creating the child process.
+Also implement the additional command ‘count’ as
+myshell$ count c filename: It will display the number of characters in given file
+myshell$ count w filename: It will display the number of words in given file
+myshell$ count l filename: It will display the number of lines in given file
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include<sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <string.h>
+#include <fcntl.h>
+
+void seperate();
+void count();
+char cmd[80],token1[20],token2[20],token3[20],token4[20],ch;
+int n,fp,wc,cc,lc;
+pid_t pid;
+void seperate()
+{
+	strcpy(token1,"\0");
+	strcpy(token2,"\0");
+	strcpy(token3,"\0");
+	strcpy(token4,"\0");
+	n=sscanf(cmd,"%s%s%s%s",token1,token2,token3,token4);
+}
+int main()
+{
+	while(1)
+	{
+		printf("\n MyShell $");
+		fgets(cmd,80,stdin);
+		seperate();
+		if(strcmp(token1,"exit")==0)
+			exit(0);
+		pid=fork();
+		if(pid==-1)
+			printf("\n Child process not created");
+		else if(pid==0)
+		{
+			if(strcmp(token1,"count")==0)
+				count();
+			else
+			{
+				switch(n)
+				{
+					case 1:
+						execlp(token1,token1,NULL);
+						break;
+					case 2:
+						execlp(token1,token1,token2,NULL);
+						break;
+					case 3:
+						execlp(token1,token1,token2,token3,NULL);
+						break;
+					case 4:
+						execlp(token1,token1,token2,token3,token4,NULL);
+						break;
+				}
+			
+			}
+		}
+			else
+		
+				wait(NULL);
+		
+		}
+		return 0;
+	}
+	void count()
+	{
+		lc=0;wc=0;cc=0;
+		fp=open(token3,O_RDONLY);
+		if(fp==-1)
+		{
+			printf("\n File %s not opened",token3);
+		}
+		else
+		{
+			while(read(fp,&ch,1))
+			{
+				if(ch!=' '&& ch!='\t' && ch!='\n')
+				{
+					cc++;
+				}
+				else if(ch ==' ' || ch=='\t')
+				{
+					wc++;
+				}
+				else
+				{
+					wc++;
+					lc++;
+				}
+
+			}
+		}
+		if(strcmp(token2,"w")==0)
+			printf("\n Words count is %d",wc);
+		if(strcmp(token2,"l")==0)
+			printf("\n Line count is %d",lc);
+		if(strcmp(token2,"c")==0)
+			printf("\n character count is %d",cc);
+		close(fp);
+	
+	}
+
+
+
+----------------------------------------------------------------------------------------------------
+
+
+
+
+
+Set-b
+1]Write a C program that behaves like a shell which displays the command prompt ‘myshell$’. It
+accepts the command, tokenize the command line and execute it by creating the child process.
+Also implement the additional command ‘list’ as
+myshell$ list f dirname: It will display filenames in a given directory.
+myshell$ list n dirname: It will count the number of entries in a given directory.
+myshell$ list i dirname: It will display filenames and their inode number for the files in a given
+directory.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include<sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <string.h>
+#include <fcntl.h>
+#include <dirent.h>
+
+void seperate();
+void list();
+int n,cc,lc,fp,wc;
+char fname[20],cmd[80],token1[20],token2[20],token3[20],token4[20];
+DIR *dp;
+struct dirent *de;
+pid_t pid;
+void seperate()
+{
+strcpy(token1,"\0");
+	strcpy(token2,"\0");
+	strcpy(token3,"\0");
+	strcpy(token4,"\0");
+	n=sscanf(cmd,"%s%s%s%s",token1,token2,token3,token4);
+}
+int main()
+{
+	while(1)
+	{
+		printf("\n MyShell $");
+		fgets(cmd,80,stdin);
+		seperate();
+		if(strcmp(token1,"exit")==0)
+			exit(0);
+		pid=fork();
+		if(pid==-1)
+			printf("\n Child process not created");
+		else if(pid==0)
+		{
+			if(strcmp(token1,"list")==0)
+				list();
+			else
+			{
+				switch(n)
+				{
+					case 1:
+						execlp(token1,token1,NULL);
+						break;
+					case 2:
+						execlp(token1,token1,token2,NULL);
+						break;
+					case 3:
+						execlp(token1,token1,token2,token3,NULL);
+						break;
+					case 4:
+						execlp(token1,token1,token2,token3,token4,NULL);
+						break;
+				}
+			
+			}
+		}
+			else
+		
+				wait(NULL);
+		
+		}
+		return 0;
+	}
+	
+void list()
+{
+	int cnt=0;
+	dp=opendir(token3);
+	if(dp==NULL)
+	{
+		printf("\n%s Directory not found",token3);
+	}
+	else
+	{
+		if(strcmp(token2,"f")==0)
+		{
+	while(1)
+	{
+		de=readdir(dp);
+		if(de==NULL)
+		  break;
+			printf("\n File name %s",de->d_name);
+	} 	
+		}
+	if(strcmp(token2,"n")==0)
+	{
+	while(1)
+	{
+	de=readdir(dp);
+	if(de==NULL)
+		break;
+	cnt++;
+	}
+	printf("\n Total files %d",cnt);
+	}
+	if(strcmp(token2,"i")==0)
+	{
+	while(1)
+	{
+	de=readdir(dp);
+	if(de==NULL)
+		break;
+	printf("\n File name %s",de->d_name);
+	printf("\n Inode no%d",de->d_ino);
+}
+}
+}
+}
+ 
+
+
+
+
+-----------------------------------------------------------------------------------------------------------
+
+
+
+
+
+set c
+1]Write a C program that behaves like a shell which displays the command prompt ‘myshell$’. It
+accepts the command, tokenize the command line and execute it by creating the child process.
+Also implement the additional command ‘typeline’ as
+myshell$ typeline n filename: It will display first n lines of the file.
+myshell$ typeline -n filename: It will display last n lines of the file.
+myshell$ typeline a filename: It will display all the lines of the file.
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include<sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <string.h>
+#include <fcntl.h>
+#include <dirent.h>
+
+void seperate();
+void list();
+int n,cc,lc,fp,wc;
+char fname[20],cmd[80],token1[20],token2[20],token3[20],token4[20];
+DIR *dp;
+struct dirent *de;
+pid_t pid;
+void seperate()
+{
+strcpy(token1,"\0");
+	strcpy(token2,"\0");
+	strcpy(token3,"\0");
+	strcpy(token4,"\0");
+	n=sscanf(cmd,"%s%s%s%s",token1,token2,token3,token4);
+}
+int main()
+{
+	while(1)
+	{
+		printf("\n MyShell $");
+		fgets(cmd,80,stdin);
+		seperate();
+		if(strcmp(token1,"exit")==0)
+			exit(0);
+		pid=fork();
+		if(pid==-1)
+			printf("\n Child process not created");
+		else if(pid==0)
+		{
+			if(strcmp(token1,"list")==0)
+				list();
+			else
+			{
+				switch(n)
+				{
+					case 1:
+						execlp(token1,token1,NULL);
+						break;
+					case 2:
+						execlp(token1,token1,token2,NULL);
+						break;
+					case 3:
+						execlp(token1,token1,token2,token3,NULL);
+						break;
+					case 4:
+						execlp(token1,token1,token2,token3,token4,NULL);
+						break;
+				}
+			
+			}
+		}
+			else
+		
+				wait(NULL);
+		
+		}
+		return 0;
+	}
+	
+void list()
+{
+	int cnt=0;
+	dp=opendir(token3);
+	if(dp==NULL)
+	{
+		printf("\n%s Directory not found",token3);
+	}
+	else
+	{
+		if(strcmp(token2,"f")==0)
+		{
+	while(1)
+	{
+		de=readdir(dp);
+		if(de==NULL)
+		  break;
+			printf("\n File name %s",de->d_name);
+	} 	
+		}
+	if(strcmp(token2,"n")==0)
+	{
+	while(1)
+	{
+	de=readdir(dp);
+	if(de==NULL)
+		break;
+	cnt++;
+	}
+	printf("\n Total files %d",cnt);
+	}
+	if(strcmp(token2,"i")==0)
+	{
+	while(1)
+	{
+	de=readdir(dp);
+	if(de==NULL)
+		break;
+	printf("\n File name %s",de->d_name);
+	printf("\n Inode no%d",de->d_ino);
+}
+}
+}
+}
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+2]myshell$ search f filename pattern : It will search the first occurrence of pattern in the given file
+myshell$ search a filename pattern : It will search all the occurrence of pattern in the given file
+myshell$ search c filename pattern : It will count the number of occurrence of pattern in the given file
+#include<stdio.h>
+#include<stdlib.h>
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<unistd.h>
+#include<dirent.h>
+#include<string.h>
+#include<fcntl.h>
+#include<sys/wait.h>
+void seperate();
+void search();
+char cmd[80],token1[20],token2[20],token3[20],token4[20],ch;
+int fp,n;
+pid_t pid;
+void seperate()//seperates command into different tokens
+{
+strcpy(token1,"\0");
+strcpy(token2,"\0");
+strcpy(token3,"\0");
+strcpy(token4,"\0");
+n=sscanf(cmd,"%s%s%s%s",token1,token2,token3,token4);
+}
+int main()
+{
+while(1)
+{
+printf("\n Myshell $");
+fgets(cmd,80,stdin);
+seperate();
+if(strcmp(token1,"exit")==0)
+exit(0);
+pid = fork();
+if(pid == -1)
+printf("\n child process not created");
+else if(pid==0)
+{
+if(strcmp(token1,"search")==0)
+search();
+else
+{
+switch(n)
+{
+case 1:
+execlp(token1,token3,NULL);
+break;
+case 2:
+execlp(token1,token1,token2,NULL);
+break;
+case 3:
+execlp(token1,token1,token2,token3,NULL);
+case 4:
+execlp(token1,token2,token2,token3,token4,NULL);
+break;
+}
+}
+}
+else
+wait(NULL);
+}
+return 0;
+}
+void search()
+{
+char s[80];
+int i=0,cnt=0,lc=1;
+fp=open(token3,O_RDONLY);
+if(fp==-1)
+{
+printf("\nFile not found");
+return;
+}
+while(read(fp,&ch,1)) //file found
+{
+if(ch=='\n')
+lc++;
+if(ch=='\n' || ch=='\t' || ch==' ')
+{
+s[i]='\0';
+i=0;
+if(strstr(s,token4))
+{
+if(strcmp(token2,"f")==0)
+{
+printf("pattern \"%s\" found in \"%s\" at line no:%d\n",token4,s,lc);
+break;
+}//fend
+if(strcmp(token2,"c")==0)
+{
+cnt++;
+}//c end
+if(strcmp(token2,"a")==0)
+{
+printf("pattern \"%s\" found in \"%s\" at line no:%d\n",token4,s,lc);
+}//a end
+}
+}
+else
+{
+s[i]=ch;
+i++;
+}
+}
+if(strcmp(token2,"c")==0)
+printf("\nTotal occurances of given pattern=%d",cnt);
+}
+
